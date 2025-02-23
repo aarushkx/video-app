@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 
 export interface IUser {
     _id?: mongoose.Types.ObjectId;
-    username: string;
     email: string;
+    username: string;
     password: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -12,15 +12,21 @@ export interface IUser {
 
 const userSchema = new Schema<IUser>(
     {
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-        },
         email: {
             type: String,
             required: true,
             unique: true,
+            lowercase: true,
+            match: [
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                "Please provide a valid email",
+            ],
+        },
+        username: {
+            type: String,
+            required: true,
+            unique: true,
+            lowercase: true,
         },
         password: {
             type: String,
