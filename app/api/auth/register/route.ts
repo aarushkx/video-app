@@ -31,13 +31,15 @@ export const POST = async (request: NextRequest) => {
             );
         }
 
-        await User.create({ email, password });
+        await User.create({ email, username, password });
 
         return NextResponse.json(
             { message: "User registered successfully" },
             { status: 201 }
         );
     } catch (error) {
+        console.log(error);
+        
         return NextResponse.json(
             { message: "Failed to register user" },
             { status: 500 }
